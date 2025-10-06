@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Check Chi Tiêu Facebook Ads</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        label { display: inline-block; margin-top: 8px; }
+        input, button, textarea { padding: 6px; margin: 5px 0; font-family: inherit; }
+        input[type="text"], textarea { width: 100%; max-width: 840px; }
+        button { cursor: pointer; }
+        .row { margin: 8px 0; }
+        table { border-collapse: collapse; margin-top: 20px; min-width: 420px; }
+        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .error { color: #b00020; margin-top: 10px; white-space: pre-line; }
+        .note { color: #555; font-size: 13px; }
+        .muted { color: #666; }
+    </style>
+</head>
+<body>
+    <h2>Check Chi Tiêu Facebook Ads</h2>
+
+    <form id="insights-form">
+        <div class="row">
+            <label>Access Token:</label><br>
+            <textarea id="access_token" rows="3" required placeholder="EAA..." spellcheck="false"></textarea>
+        </div>
+
+        <div class="row">
+            <label>Ad Account IDs (cách nhau bằng dấu ,):</label><br>
+            <input type="text" id="ad_account_ids" required placeholder="act_123, act_456">
+            <div class="note muted">Bạn có thể nhập cả dạng có tiền tố act_ hoặc chỉ số ID.</div>
+        </div>
+
+        <div class="row">
+            <label>Ngày từ (YYYY-MM-DD):</label><br>
+            <input type="text" id="since">
+        </div>
+
+        <div class="row">
+            <label>Ngày đến (YYYY-MM-DD):</label><br>
+            <input type="text" id="until">
+        </div>
+
+        <div class="row">
+            <button type="submit">Check</button>
+            <span id="status" class="muted" style="margin-left:10px;"></span>
+        </div>
+    </form>
+
+    <div id="errors" class="error"></div>
+
+    <div id="results" style="display:none;">
+        <hr>
+        <h3>Kết quả:</h3>
+        <table id="results-table">
+            <thead>
+                <tr>
+                    <th>Tên nhóm (4 ký tự đầu)</th>
+                    <th>Tổng chi tiêu</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+    function getYesterdayLocalISODate() {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function formatCurrencyVND(number) {
+        const rounded = Math.round(Number(number) || 0);
+        return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' VND';
+    }
+
+    function normalizeAccountId(id) {
+        const trimmed = (id || '').trim();
+        if (!trimmed) return '';
+        if (trimmed.startsWith('act_')) return trimmed;
+        return `act_${trimmed}`;
+    }
+
+    async function fetchInsightsForAccount(accountId, accessToken, since, until) {
+        const timeRange = encodeURIComponent(JSON.stringify({ since, until }));
+        const fields = encodeURIComponent('campaign_name,spend');
+        const level = 'campaign';
+        const url = `https://graph.facebook.com/v18.0/${accountId}/insights?fields=${fields}&level=${level}&time_range=${timeRange}&limit=5000&access_token=${encodeURIComponent(accessToken)}`;
+
+        const res = await fetch(url, { method: 'GET' });
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`HTTP ${res.status} for ${accountId}: ${text}`);
+        }
+        return res.json();
+    }
+
+    function renderResults(nameToSpend) {
+        const tableBody = document.querySelector('#results-table tbody');
+        tableBody.innerHTML = '';
+
+        const entries = Array.from(nameToSpend.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+        for (const [name, total] of entries) {
+            const tr = document.createElement('tr');
+            const tdName = document.createElement('td');
+            const tdSpend = document.createElement('td');
+            tdName.textContent = name;
+            tdSpend.textContent = formatCurrencyVND(total);
+            tr.appendChild(tdName);
+            tr.appendChild(tdSpend);
+            tableBody.appendChild(tr);
+        }
+
+        document.getElementById('results').style.display = entries.length ? 'block' : 'none';
+    }
+
+    function setBusy(isBusy, message = '') {
+        const statusEl = document.getElementById('status');
+        statusEl.textContent = isBusy ? (message || 'Đang xử lý...') : '';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const yesterday = getYesterdayLocalISODate();
+        document.getElementById('since').value = yesterday;
+        document.getElementById('until').value = yesterday;
+
+        const form = document.getElementById('insights-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('errors').textContent = '';
+            document.getElementById('results').style.display = 'none';
+
+            const accessToken = document.getElementById('access_token').value.trim();
+            const idsRaw = document.getElementById('ad_account_ids').value;
+            const since = (document.getElementById('since').value || yesterday).trim();
+            const until = (document.getElementById('until').value || yesterday).trim();
+
+            const accountIds = idsRaw.split(',').map(s => normalizeAccountId(s)).filter(Boolean);
+            if (!accessToken || accountIds.length === 0) {
+                document.getElementById('errors').textContent = 'Vui lòng nhập Access Token và ít nhất một Ad Account ID.';
+                return;
+            }
+
+            const nameToSpend = new Map();
+            const errorLines = [];
+
+            setBusy(true, 'Đang lấy dữ liệu...');
+
+            // Sequential to be gentle with rate limits; adjust to parallel if desired
+            for (const accountId of accountIds) {
+                try {
+                    const data = await fetchInsightsForAccount(accountId, accessToken, since, until);
+                    const rows = Array.isArray(data && data.data) ? data.data : [];
+                    for (const row of rows) {
+                        const name = (row.campaign_name || 'Không có tên').trim().toLowerCase();
+                        const key = name.slice(0, 4); // 4 ký tự đầu
+                        const spend = Number(row.spend || 0);
+                        nameToSpend.set(key, (nameToSpend.get(key) || 0) + spend);
+                    }
+                } catch (err) {
+                    errorLines.push(String(err));
+                }
+            }
+
+            setBusy(false);
+
+            if (errorLines.length) {
+                document.getElementById('errors').textContent = errorLines.join('\n');
+            }
+
+            renderResults(nameToSpend);
+        });
+    });
+    </script>
+</body>
+</html>
+
+
