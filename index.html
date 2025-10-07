@@ -160,7 +160,7 @@
                     const rows = Array.isArray(data && data.data) ? data.data : [];
                     for (const row of rows) {
                         const name = (row.campaign_name || 'Không có tên').trim().toLowerCase();
-                        const key = name.slice(0, 4); // 4 ký tự đầu
+                        const key = name.slice(0, 6); // 4 ký tự đầu
                         const spend = Number(row.spend || 0);
                         nameToSpend.set(key, (nameToSpend.get(key) || 0) + spend);
                     }
