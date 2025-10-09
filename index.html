@@ -1,185 +1,325 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Check Chi Tiêu Facebook Ads</title>
-    <style>
-        body { font-family: Arial; padding: 20px;}
-        label { display: inline-block; margin-top: 8px; }
-        input, button, textarea { padding: 6px; margin: 5px 0; font-family: inherit; }
-        input[type="text"], textarea { width: 100%; max-width: 840px; }
-        button { cursor: pointer; }
-        .row { margin: 8px 0; }
-        table { border-collapse: collapse; margin-top: 20px; min-width: 420px; }
-        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .error { color: #b00020; margin-top: 10px; white-space: pre-line; }
-        .note { color: #555; font-size: 13px; }
-        .muted { color: #666; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check Chi Tiêu Facebook Ads - VIP</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top left, #0f172a, #020617 70%);
+      color: #e5e7eb;
+      margin: 0;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.05);
+      padding: 40px 50px;
+      max-width: 720px;
+      width: 100%;
+      backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+    }
+
+    h2 {
+      text-align: center;
+      background: linear-gradient(90deg, #fde68a, #facc15, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 28px;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 6px;
+      color: #cbd5e1;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #f9fafb;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #facc15;
+      background: rgba(255,255,255,0.08);
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #111;
+      background: linear-gradient(90deg, #facc15, #fbbf24, #f59e0b);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b, #facc15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+    }
+
+    .row {
+      margin-bottom: 18px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+
+    .error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #fecaca;
+      white-space: pre-line;
+      margin-top: 12px;
+    }
+
+    .status {
+      display: block;
+      text-align: center;
+      color: #9ca3af;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    #results {
+      margin-top: 40px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(250, 204, 21, 0.1);
+      color: #facc15;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(250,204,21,0.2);
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255,255,255,0.04);
+    }
+
+    tr:hover {
+      background: rgba(250, 204, 21, 0.08);
+    }
+
+    td {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #e5e7eb;
+    }
+
+  </style>
 </head>
 <body>
-    <h2>Check Chi Tiêu Facebook Ads</h2>
+  <div class="container">
+    <h2>💎 Check Chi Tiêu Facebook Ads (VIP)</h2>
 
     <form id="insights-form">
-        <div class="row">
-            <label>Access Token:</label><br>
-            <textarea id="access_token" rows="3" required placeholder="EAA..." spellcheck="false"></textarea>
-        </div>
+      <div class="row">
+        <label>Access Token:</label>
+        <textarea id="access_token" rows="3" required placeholder="Dán Access Token (EAA...)" spellcheck="false"></textarea>
+      </div>
 
-        <div class="row">
-            <label>Ad Account IDs (cách nhau bằng dấu ,):</label><br>
-            <input type="text" id="ad_account_ids" required placeholder="act_123, act_456">
-            <div class="note muted">Bạn có thể nhập cả dạng có tiền tố act_ hoặc chỉ số ID.</div>
-        </div>
+      <div class="row">
+        <label>Ad Account IDs (ngăn cách bằng dấu phẩy):</label>
+        <input type="text" id="ad_account_ids" required placeholder="act_123, act_456">
+        <div class="note">Nhập dạng <b>act_</b> hoặc chỉ số ID đều được.</div>
+      </div>
 
-        <div class="row">
-            <label>Ngày bắt đầu (YYYY-MM-DD):</label><br>
-            <input type="text" id="since">
-        </div>
+      <div class="row">
+        <label>Ngày bắt đầu (YYYY-MM-DD):</label>
+        <input type="text" id="since">
+      </div>
 
-        <div class="row">
-            <label>Ngày kết thúc (YYYY-MM-DD):</label><br>
-            <input type="text" id="until">
-        </div>
+      <div class="row">
+        <label>Ngày kết thúc (YYYY-MM-DD):</label>
+        <input type="text" id="until">
+      </div>
 
-        <div class="row">
-            <button type="submit" style="background-color:blue" >Check</button>
-            <span id="status" class="muted" style="margin-left:10px;"></span>
-        </div>
+      <button type="submit">🚀 Check Ngay</button>
+      <span id="status" class="status"></span>
     </form>
 
-    <div id="errors" class="error"></div>
+    <div id="errors" class="error" style="display:none;"></div>
 
     <div id="results" style="display:none;">
-        <hr>
-        <h3>Kết quả:</h3>
-        <table id="results-table">
-            <thead>
-                <tr>
-                    <th>Tên sản phẩm</th>
-                    <th>Tổng chi tiêu</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+      <h3 style="margin-top: 40px; color:#facc15;">📊 Kết quả:</h3>
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Tên sản phẩm</th>
+            <th>Tổng chi tiêu</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
+  </div>
 
-    <script>
-    function getYesterdayLocalISODate() {
-        const d = new Date();
-        d.setDate(d.getDate() - 1);
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+  <script>
+  function getYesterdayLocalISODate() {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function formatCurrencyVND(number) {
+    const rounded = Math.round(Number(number) || 0);
+    return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' VND';
+  }
+
+  function normalizeAccountId(id) {
+    const trimmed = (id || '').trim();
+    if (!trimmed) return '';
+    if (trimmed.startsWith('act_')) return trimmed;
+    return `act_${trimmed}`;
+  }
+
+  async function fetchInsightsForAccount(accountId, accessToken, since, until) {
+    const timeRange = encodeURIComponent(JSON.stringify({ since, until }));
+    const fields = encodeURIComponent('campaign_name,spend');
+    const level = 'campaign';
+    const url = `https://graph.facebook.com/v18.0/${accountId}/insights?fields=${fields}&level=${level}&time_range=${timeRange}&limit=5000&access_token=${encodeURIComponent(accessToken)}`;
+
+    const res = await fetch(url, { method: 'GET' });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`HTTP ${res.status} for ${accountId}: ${text}`);
+    }
+    return res.json();
+  }
+
+  function renderResults(nameToSpend) {
+    const tableBody = document.querySelector('#results-table tbody');
+    tableBody.innerHTML = '';
+
+    const entries = Array.from(nameToSpend.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+    let totalSpend = 0;
+
+    for (const [name, total] of entries) {
+      totalSpend += total;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${name}</td><td>${formatCurrencyVND(total)}</td>`;
+      tableBody.appendChild(tr);
     }
 
-    function formatCurrencyVND(number) {
-        const rounded = Math.round(Number(number) || 0);
-        return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' VND';
-    }
+    // Add total row
+    const totalTr = document.createElement('tr');
+    totalTr.innerHTML = `<td style="font-weight:600; color:#facc15;">Tổng cộng</td><td style="font-weight:600; color:#facc15;">${formatCurrencyVND(totalSpend)}</td>`;
+    tableBody.appendChild(totalTr);
 
-    function normalizeAccountId(id) {
-        const trimmed = (id || '').trim();
-        if (!trimmed) return '';
-        if (trimmed.startsWith('act_')) return trimmed;
-        return `act_${trimmed}`;
-    }
+    document.getElementById('results').style.display = entries.length ? 'block' : 'none';
+  }
 
-    async function fetchInsightsForAccount(accountId, accessToken, since, until) {
-        const timeRange = encodeURIComponent(JSON.stringify({ since, until }));
-        const fields = encodeURIComponent('campaign_name,spend');
-        const level = 'campaign';
-        const url = `https://graph.facebook.com/v18.0/${accountId}/insights?fields=${fields}&level=${level}&time_range=${timeRange}&limit=5000&access_token=${encodeURIComponent(accessToken)}`;
+  function setBusy(isBusy, message = '') {
+    const statusEl = document.getElementById('status');
+    statusEl.textContent = isBusy ? (message || 'Đang xử lý...') : '';
+  }
 
-        const res = await fetch(url, { method: 'GET' });
-        if (!res.ok) {
-            const text = await res.text();
-            throw new Error(`HTTP ${res.status} for ${accountId}: ${text}`);
+  document.addEventListener('DOMContentLoaded', () => {
+    const yesterday = getYesterdayLocalISODate();
+    document.getElementById('since').value = yesterday;
+    document.getElementById('until').value = yesterday;
+
+    const form = document.getElementById('insights-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errorEl = document.getElementById('errors');
+      errorEl.style.display = 'none';
+      document.getElementById('results').style.display = 'none';
+
+      const accessToken = document.getElementById('access_token').value.trim();
+      const idsRaw = document.getElementById('ad_account_ids').value;
+      const since = (document.getElementById('since').value || yesterday).trim();
+      const until = (document.getElementById('until').value || yesterday).trim();
+
+      const accountIds = idsRaw.split(',').map(s => normalizeAccountId(s)).filter(Boolean);
+      if (!accessToken || accountIds.length === 0) {
+        errorEl.textContent = '⚠️ Vui lòng nhập Access Token và ít nhất một Ad Account ID.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      const nameToSpend = new Map();
+      const errorLines = [];
+
+      setBusy(true, 'Đang lấy dữ liệu...');
+
+      for (const accountId of accountIds) {
+        try {
+          const data = await fetchInsightsForAccount(accountId, accessToken, since, until);
+          const rows = Array.isArray(data && data.data) ? data.data : [];
+          for (const row of rows) {
+            const name = (row.campaign_name || 'Không có tên').trim().toLowerCase();
+            const key = name.slice(0, 6);
+            const spend = Number(row.spend || 0);
+            nameToSpend.set(key, (nameToSpend.get(key) || 0) + spend);
+          }
+        } catch (err) {
+          errorLines.push(String(err));
         }
-        return res.json();
-    }
+      }
 
-    function renderResults(nameToSpend) {
-        const tableBody = document.querySelector('#results-table tbody');
-        tableBody.innerHTML = '';
+      setBusy(false);
 
-        const entries = Array.from(nameToSpend.entries()).sort((a, b) => a[0].localeCompare(b[0]));
-        for (const [name, total] of entries) {
-            const tr = document.createElement('tr');
-            const tdName = document.createElement('td');
-            const tdSpend = document.createElement('td');
-            tdName.textContent = name;
-            tdSpend.textContent = formatCurrencyVND(total);
-            tr.appendChild(tdName);
-            tr.appendChild(tdSpend);
-            tableBody.appendChild(tr);
-        }
+      if (errorLines.length) {
+        errorEl.textContent = errorLines.join('\n');
+        errorEl.style.display = 'block';
+      }
 
-        document.getElementById('results').style.display = entries.length ? 'block' : 'none';
-    }
-
-    function setBusy(isBusy, message = '') {
-        const statusEl = document.getElementById('status');
-        statusEl.textContent = isBusy ? (message || 'Đang xử lý...') : '';
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const yesterday = getYesterdayLocalISODate();
-        document.getElementById('since').value = yesterday;
-        document.getElementById('until').value = yesterday;
-
-        const form = document.getElementById('insights-form');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            document.getElementById('errors').textContent = '';
-            document.getElementById('results').style.display = 'none';
-
-            const accessToken = document.getElementById('access_token').value.trim();
-            const idsRaw = document.getElementById('ad_account_ids').value;
-            const since = (document.getElementById('since').value || yesterday).trim();
-            const until = (document.getElementById('until').value || yesterday).trim();
-
-            const accountIds = idsRaw.split(',').map(s => normalizeAccountId(s)).filter(Boolean);
-            if (!accessToken || accountIds.length === 0) {
-                document.getElementById('errors').textContent = 'Vui lòng nhập Access Token và ít nhất một Ad Account ID.';
-                return;
-            }
-
-            const nameToSpend = new Map();
-            const errorLines = [];
-
-            setBusy(true, 'Đang lấy dữ liệu...');
-
-            // Sequential to be gentle with rate limits; adjust to parallel if desired
-            for (const accountId of accountIds) {
-                try {
-                    const data = await fetchInsightsForAccount(accountId, accessToken, since, until);
-                    const rows = Array.isArray(data && data.data) ? data.data : [];
-                    for (const row of rows) {
-                        const name = (row.campaign_name || 'Không có tên').trim().toLowerCase();
-                        const key = name.slice(0, 6); // 4 ký tự đầu
-                        const spend = Number(row.spend || 0);
-                        nameToSpend.set(key, (nameToSpend.get(key) || 0) + spend);
-                    }
-                } catch (err) {
-                    errorLines.push(String(err));
-                }
-            }
-
-            setBusy(false);
-
-            if (errorLines.length) {
-                document.getElementById('errors').textContent = errorLines.join('\n');
-            }
-
-            renderResults(nameToSpend);
-        });
+      renderResults(nameToSpend);
     });
-    </script>
+  });
+  </script>
 </body>
 </html>
-
-
